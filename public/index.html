@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>CrypChat</title>
 <meta charset="utf-8">
@@ -41,23 +42,40 @@
         <div id="output" style="overflow-y:scroll;height:400px"></div>
     </div>
 
-
+    
+ 
     <script>
+    
+        
+
         const username = document.getElementById("username")
         const crypto = document.getElementById("crypto")
         const message = document.getElementById("message")
+        message.addEventListener('keypress', enter)
         const output = document.getElementById("output")
+
         const socket = new WebSocket("ws://localhost:8080/ws")
 
         socket.onopen = () => output.innerHTML += "<p style='color:green;'>Status: Connected</p>\n"
-        
+
         socket.onmessage = e => {
             data = JSON.parse(e.data)
-            output.innerHTML += "<p>@" + (data.username ? data.username : "anonymous") + ": " + data.message + "</p>"
+
+            const m = CryptoJS.AES.decrypt(data.message, crypto.value)
+            let decryptedMessage = m.toString(CryptoJS.enc.Utf8)
+            
+            if (decryptedMessage === '') decryptedMessage = '******* encrypted message ********'
+
+            output.innerHTML += "<p>@" + (data.username ? data.username : "anonymous") + ": " + decryptedMessage + "</p>"
             scrollToBottom()
         }
+
         function send() {
-            socket.send(JSON.stringify({username: username.value, message: message.value}))
+
+            const m = CryptoJS.AES.encrypt(message.value, crypto.value)
+            const encryptedMessage = m.toString()
+
+            socket.send(JSON.stringify({username: username.value, message: encryptedMessage}))
             message.value = ""
         }
 
@@ -65,6 +83,10 @@
             const obj = document.getElementById("output")
             if(!obj) return
             obj.scrollTop = obj.scrollHeight
+        }
+
+        function enter(e) {
+            if (e.keyCode === 13) send()
         }
     </script>
 </body>
