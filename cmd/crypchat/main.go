@@ -21,7 +21,7 @@ type Message struct {
 }
 
 func main() {
-	logfile := logger.Init()
+	logfile := logger.Init("log/log.log")
 	defer logfile.Close()
 
 	// io.MultiWriteで、
