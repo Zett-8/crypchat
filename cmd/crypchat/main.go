@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/Zett-8/crypchat/log"
 	"github.com/gorilla/websocket"
-	"github.com/zett-8/crypchat/log"
 )
 
 var clients = make(map[*websocket.Conn]bool)
