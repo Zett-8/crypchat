@@ -33,7 +33,7 @@ func main() {
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "./public")
+	http.ServeFile(w, r, "./public/index.html")
 }
 
 func handleConnections(w http.ResponseWriter, r *http.Request) {
