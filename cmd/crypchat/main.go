@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/gorilla/websocket"
+	"github.com/zett-8/crypchat/log"
 )
 
 var clients = make(map[*websocket.Conn]bool)
@@ -19,6 +20,8 @@ type Message struct {
 }
 
 func main() {
+	logger.Init()
+
 	PORT := os.Getenv("PORT")
 	if PORT == "" {
 		PORT = "8080"
