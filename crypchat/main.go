@@ -24,7 +24,7 @@ func main() {
 		PORT = "8080"
 	}
 
-	http.HandleFunc("/", index)
+	http.Handle("/", http.StripPrefix("/", http.FileServer(http.Dir("static"))))
 	http.HandleFunc("/ws", handleConnections)
 
 	go handleMessages()
