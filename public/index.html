@@ -42,8 +42,8 @@
         const username = document.getElementById("username")
         const crypto = document.getElementById("crypto")
         const message = document.getElementById("message")
-        message.addEventListener('keypress', enter)
         const output = document.getElementById("output")
+        message.addEventListener('keypress', enter)
 
         const socket = new WebSocket("ws://localhost:8080/ws")
 
@@ -55,13 +55,14 @@
             const m = CryptoJS.AES.decrypt(data.message, crypto.value)
             let decryptedMessage = m.toString(CryptoJS.enc.Utf8)
             
-            if (decryptedMessage === '') decryptedMessage = '******* encrypted message ********'
+            if (decryptedMessage === '') decryptedMessage = '** encrypted message ** ' +  data.message
 
             output.innerHTML += "<p>@" + (data.username ? data.username : "anonymous") + ": " + decryptedMessage + "</p>"
             scrollToBottom()
         }
 
         function send() {
+            if (message.value === '') return false
 
             const m = CryptoJS.AES.encrypt(message.value, crypto.value)
             const encryptedMessage = m.toString()

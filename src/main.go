@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/websocket"
 )
@@ -18,14 +19,18 @@ type Message struct {
 }
 
 func main() {
-	// fs := http.ServeFile(http.Dir("../public"))
+	PORT := os.Getenv("PORT")
+	if PORT == "" {
+		PORT = "8080"
+	}
+
 	http.HandleFunc("/", index)
 	http.HandleFunc("/ws", handleConnections)
 
 	go handleMessages()
 
 	log.Println("http server started on :8080")
-	err := http.ListenAndServe(":8080", nil)
+	err := http.ListenAndServe(":"+PORT, nil)
 	if err != nil {
 		log.Fatal("listenAndServe: ", err)
 	}
