@@ -45,7 +45,7 @@
         const output = document.getElementById("output")
         message.addEventListener('keypress', enter)
 
-        const socket = new WebSocket("ws://crypchat.herokuapp.com/ws")
+        const socket = new WebSocket("wss://crypchat.herokuapp.com/ws")
 
         socket.onopen = () => output.innerHTML += "<p style='color:green;'>Status: Connected</p>\n"
 
