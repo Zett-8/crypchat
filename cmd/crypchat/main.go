@@ -1,6 +1,7 @@
 package main
 
 import (
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -20,7 +21,14 @@ type Message struct {
 }
 
 func main() {
-	logger.Init()
+	logfile := logger.Init()
+	defer logfile.Close()
+
+	// io.MultiWriteで、
+	// 標準出力とファイルの両方を束ねて、
+	// logの出力先に設定する
+	log.SetOutput(io.MultiWriter(logfile, os.Stdout))
+	log.SetFlags(log.Ldate | log.Ltime)
 
 	PORT := os.Getenv("PORT")
 	if PORT == "" {
@@ -41,6 +49,7 @@ func main() {
 }
 
 func handleConnections(w http.ResponseWriter, r *http.Request) {
+	log.Println("connect")
 	ws, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Fatal(err)
