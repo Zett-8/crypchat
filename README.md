@@ -10,6 +10,7 @@ And also decrypt messages you receive from your partner who uses the same keywor
 #### library
 
 - <a href="https://github.com/gorilla/websocket">gorilla/websocket</a>
+- <a href="https://github.com/rhysd/abspath">rhysd/abspath</a>
 
 ### demo
 https://crypchat.herokuapp.com/
