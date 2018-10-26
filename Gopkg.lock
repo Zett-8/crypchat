@@ -9,9 +9,20 @@
   revision = "66b9c49e59c6c48f0ffce28c2d8b8a5678502c6d"
   version = "v1.4.0"
 
+[[projects]]
+  branch = "master"
+  digest = "1:1eda8085fb05ce80027730adf761b23042ee4fb9157d830fad2ff24403f7d25c"
+  name = "github.com/rhysd/abspath"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "d4a6251a0a83bd60f2a51d4296d827af44a1b22b"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  input-imports = ["github.com/gorilla/websocket"]
+  input-imports = [
+    "github.com/gorilla/websocket",
+    "github.com/rhysd/abspath",
+  ]
   solver-name = "gps-cdcl"
   solver-version = 1

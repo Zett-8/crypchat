@@ -8,17 +8,17 @@ import (
 )
 
 func TestInit(t *testing.T) {
-	os.Remove("log.txt")
-	os.Create("log.txt")
+	os.Remove("log.log")
+	os.Create("log.log")
 
-	logfile := Init("log.txt")
+	logfile := Init()
 	defer logfile.Close()
 
 	log.SetOutput(logfile)
 	log.SetFlags(0)
 	log.Println("this is test log output")
 
-	bs, err := ioutil.ReadFile("log.txt")
+	bs, err := ioutil.ReadFile("log.log")
 	if err != nil {
 		t.Errorf("can not read log file")
 	}
@@ -27,5 +27,5 @@ func TestInit(t *testing.T) {
 		t.Errorf("log text is not correct")
 	}
 
-	os.Remove("log.txt")
+	os.Remove("log.log")
 }
